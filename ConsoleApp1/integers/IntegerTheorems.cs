@@ -45,7 +45,7 @@ namespace ConsoleApp1
             public Integer q;
             public ReductionModulo(Integer n, Integer m, Integer r, Integer q)
             {
-                I.True(n == q * m + r && r >= 0 && r <= Math.Abs(m));
+                I.True(n == q * m + r && r >= 0 && r <= IntegerMath.Abs(m));
                 this.n = n;
                 this.m = m;
                 this.r = r;
@@ -62,11 +62,12 @@ namespace ConsoleApp1
             /// proof
             // Proof: Let S be the set of all non-negative integers
             // expressible in the form N − sm for some integer s.
-            List<Integer> specialForms = new List<Integer>();
-            var b = n + m;
-            Integer rform(Integer s) => n - s * m;
+            List<(Integer n, Integer s, Integer m, Integer dif)> specialForms = new List<(Integer n, Integer s, Integer m, Integer dif)>();
+            var tpl = (n: new Integer(1), s: new Integer(2), m: new Integer(3));
+            (Integer n, Integer s, Integer m , Integer dif ) rform (Integer s) =>
+                (n, s, m, dif: n - s * m);
             allNumbers.ForEach((s) => {
-                if (rform(s) >= 0)
+                if (rform(s).dif >= 0)
                 {
                     specialForms.Add(rform(s));
                 }
@@ -80,43 +81,36 @@ namespace ConsoleApp1
 
             // , so by well-ordering has a least element r = N − qm.
             specialForms.Sort();
-            var r = specialForms[0];
-            var q = (n - r) / m;
+            var leatsForm = specialForms[0];
+            var q = leatsForm.s;
             // rform(r);
 
             ReductionModulo existingReductionModulo;
             // Claim that r < |m|.
-            if (r < Math.Abs(m))
+            if (leatsForm.dif < IntegerMath.Abs(m))
             {
-                existingReductionModulo = new ReductionModulo(n, m, r, q);
+                existingReductionModulo = new ReductionModulo(n, m, leatsForm.dif, q);
             }
             // If not, then
             // still r − |m| ≥ 0,
             else
             {
-                I.logicChain(new object[] { r >= Math.Abs(m), (r - Math.Abs(m)) >= 0 });
+                I.logicChain(new object[] { leatsForm.dif >= IntegerMath.Abs(m), (leatsForm.dif - IntegerMath.Abs(m)) >= 0 });
                 //  and also
                 // r − |m| = (N − qm) − |m| = N − (q ± 1)m
                 var s1 = q + 1;
                 I.functionsChain(new object[] {
-                  r - Math.Abs(m),
-                  n - q * m - Math.Abs(m),
+                  leatsForm.dif - IntegerMath.Abs(m),
+                  n - q * m - IntegerMath.Abs(m),
                   m >= 0 ? n - (q + 1) * m : n - (q - 1) * m,
                   m >= 0 ? n - s1 * m : n - s1 * m
                 });
-
-                // const func_r = (n: number, q: number, m: number) => {
-                //   return n - q * m;
-                // }
-                // const someForm = (r: (n: number, q: number, m: number) => number, m:number) => {
-                //   return r - mod(m);
-                // }
 
                 // (with the sign depending on the sign of m) is still in the set S, contradiction
 
                 var substitution = m >= 0 ? n - (q + 1) * m : n - (q - 1) * m;
 
-                if (specialForms.Contains(substitution) && substitution < r)
+                if (specialForms.Exists(form => form.dif == substitution) && substitution < leatsForm.dif)
                 {
                     throw new Exception("Contradiction");
                 }
@@ -134,18 +128,18 @@ namespace ConsoleApp1
             var _q = Q.assume(Q.exist());
             var anotherExistingReductionModule = new ReductionModulo(n, m, _r, _q);
 
-            I.functionsChain(new object[] { r - _r, m * (_q - q) });
+            I.functionsChain(new object[] { leatsForm.dif - _r, m * (_q - q) });
             I.logicChain(new object[]{
-                0 <= r && r < Math.Abs(r) && 0 <= _r && _r < Math.Abs(_r),
-              -Math.Abs(m) < r - _r && r - _r < Math.Abs(m),
-              -Math.Abs(m) < m * (_q - q) && m * (_q - q) < Math.Abs(m)
+                0 <= leatsForm.dif && leatsForm.dif < IntegerMath.Abs(leatsForm.dif) && 0 <= _r && _r < IntegerMath.Abs(_r),
+              -IntegerMath.Abs(m) < leatsForm.dif - _r && leatsForm.dif - _r < IntegerMath.Abs(m),
+              -IntegerMath.Abs(m) < m * (_q - q) && m * (_q - q) < IntegerMath.Abs(m)
             });
 
             if (m > 0)
             {
                 I.logicChain(new object[] {
-                  -Math.Abs(m) < m * (_q - q) && m * (_q - q) < Math.Abs(m),
-                  -Math.Abs(m) / m < _q - q && _q - q < Math.Abs(m) / m,
+                  -IntegerMath.Abs(m) < m * (_q - q) && m * (_q - q) < IntegerMath.Abs(m),
+                  -IntegerMath.Abs(m) / m < _q - q && _q - q < IntegerMath.Abs(m) / m,
                   -1 < m * (_q - q) && _q - q < 1,
                   _q == q
                 });
@@ -153,14 +147,14 @@ namespace ConsoleApp1
             else
             {
                 I.logicChain(new object[] {
-                  -Math.Abs(m) < m * (_q - q) && m * (_q - q) < Math.Abs(m),
-                  -Math.Abs(m) / m > _q - q && _q - q > Math.Abs(m) / m,
+                  -IntegerMath.Abs(m) < m * (_q - q) && m * (_q - q) < IntegerMath.Abs(m),
+                  -IntegerMath.Abs(m) / m > _q - q && _q - q > IntegerMath.Abs(m) / m,
                   1 > m * (_q - q) && _q - q > -1,
                   _q == q
                 });
             }
 
-            I.logicChain(new object[] { _q == q, r == _r });
+            I.logicChain(new object[] { _q == q, leatsForm.dif == _r });
 
             return existingReductionModulo;
         }
@@ -175,7 +169,7 @@ namespace ConsoleApp1
             {
                 var d = Q.any();
                 I.True(
-                  1 < d && d <= Math.Sqrt(p) && !BasicDivisionDefinitions.divides(d, p)
+                  1 < d && d <= IntegerMath.Sqrt(p) && !BasicDivisionDefinitions.divides(d, p)
                 );
                 this.p = p;
             }
@@ -203,8 +197,8 @@ namespace ConsoleApp1
                   d == n / e,
                   n / e <= n / d,
                   d <= n / d,
-                  Math.Pow(d, 2) <= n,
-                  d <= Math.Sqrt(n)
+                  IntegerMath.Pow(d, 2) <= n,
+                  d <= IntegerMath.Sqrt(n)
                 );
                 // positive integer:
                 //not(divistible) i.e. prime  <= has no divisor <= sqrt(n)
@@ -225,7 +219,7 @@ namespace ConsoleApp1
         // check if it's prime
         bool trialDivisionPrimeTest(Integer n)
         {
-            var maxd = Math.Sqrt(n);
+            var maxd = IntegerMath.Sqrt(n);
 
             for (var i = 2; i <= maxd; i++)
             {
@@ -315,8 +309,8 @@ namespace ConsoleApp1
               Integer m;
               public Integer x;
               public Integer y;
-              public Integer d;
-            public XYForm(Integer n, Integer m, Integer x, Integer y, Integer d)
+              public NotZeroInteger d;
+            public XYForm(Integer n, Integer m, Integer x, Integer y, NotZeroInteger d)
             {
                 I.True(d == x * m + y * n);
 
@@ -336,7 +330,7 @@ namespace ConsoleApp1
             var d = x * m + y * n;
             I.True(d > 0 && d <= x1 * m + y1 * n);
 
-            return new XYForm(n, m, x, y, d);
+            return new XYForm(n, m, x, y, (NotZeroInteger)d);
         }
 
         static XYForm existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(Integer n, Integer m) 
@@ -362,7 +356,7 @@ namespace ConsoleApp1
 
             var reductionModule = existsOnlyOneReductionModulo(
               m,
-              new NotZeroInteger(D)
+              D
             );
             var q = reductionModule.q;
             var r = reductionModule.r;

@@ -9,6 +9,17 @@
         {
             this.n = n;
         }
+        public static Integer operator +(Integer a)
+            => a;
+
+        public static Integer operator -(Integer a)
+            => new Integer(-a.n);
+
+        public static Integer operator ++(Integer a)
+            => new Integer(++a.n);
+
+        public static Integer operator --(Integer a)
+            => new Integer(--a.n);
 
         public static Integer operator +(Integer a, Integer b)
             => new Integer(a.n + b.n);
@@ -18,6 +29,14 @@
 
         public static Integer operator *(Integer a, Integer b)
             => new Integer(a.n * b.n);
+
+        public static Integer operator /(Integer a, Integer b)
+        {
+            // makes compilation weeker
+            // as an alternative, retrun Rational or nullable Interger
+            // with an explicit conversion in place
+            return BasicDivisionDefinitions.existsDivision(a, b);
+        }
 
         public static bool operator >(Integer a, Integer b)
             => a.n > b.n;
