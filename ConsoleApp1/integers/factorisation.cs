@@ -10,10 +10,10 @@ namespace ConsoleApp1
 
         class Factorization
         {
-            public int n;
-            public int[] primes;
-            public int[] exponents;
-            public Factorization(int n, int[] primes, int[] exponents)
+            public Integer n;
+            public Integer[] primes;
+            public Integer[] exponents;
+            public Factorization(Integer n, Integer[] primes, Integer[] exponents)
             {
                 for (var i = 0; i < primes.Length - 1; i++)
                 {
@@ -31,7 +31,7 @@ namespace ConsoleApp1
             public Factorization multiply(Factorization fac)
             {
                 var primes = this.primes.Union(fac.primes);
-                var exponents = new List<int>();
+                var exponents = new List<Integer>();
                 foreach (var prime in primes)
                 {
                     var exponent = 0;
@@ -49,13 +49,13 @@ namespace ConsoleApp1
                 return new Factorization(this.n * fac.n, primes.ToArray(), exponents.ToArray());
             }
 
-            public int? findDividentFactor(int q)
+            public Integer? findDividentFactor(Integer q)
             {
                 if (this.primes.Length == 0) {
                     return null;
                 }
                 var p1 = this.primes[0];
-                var dividend = Integer.existOneDividesOneOfTheFactorsIFFDividesProduct(
+                var dividend = IntegerTheorems.existOneDividesOneOfTheFactorsIFFDividesProduct(
                   new Prime(q),
                   p1,
                   this.n / p1
@@ -86,11 +86,11 @@ namespace ConsoleApp1
             }
         }
 
-        Factorization existsFactorisation(int n)
+        Factorization existsFactorisation(Integer n)
         {
             if (n == 1)
             {
-                return new Factorization(1, new int[] { 1 }, new int[] { 1 });
+                return new Factorization(1, new Integer[] { 1 }, new Integer[] { 1 });
             }
             // n > 1
             var n1 = Q.any();
@@ -105,7 +105,7 @@ namespace ConsoleApp1
             {
                 if (BasicDivisionDefinitions.isPrime(n))
                 {
-                    var primeUniqueFactorisation = new Factorization(n, new int[] { n }, new int[] { 1 });
+                    var primeUniqueFactorisation = new Factorization(n, new Integer[] { n }, new Integer[] { 1 });
                     return primeUniqueFactorisation;
                 }
 
@@ -183,7 +183,7 @@ namespace ConsoleApp1
             I.True(p1 > p1);
         }
 
-        Factorization  existsUniqueFactorisation(int n)
+        Factorization  existsUniqueFactorisation(Integer n)
         {
             var qFactorisation = existsFactorisation(n);
             var pFactorisation = existsFactorisation(n);

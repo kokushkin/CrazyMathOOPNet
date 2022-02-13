@@ -4,13 +4,13 @@ namespace ConsoleApp1
 {
     class Q
     {
-        public static int any()
+        public static Integer any()
         {
             Random rnd = new Random();
             return rnd.Next();
         }
 
-        public static int exist()
+        public static Integer exist()
         {
             Random rnd = new Random();
             return rnd.Next();

@@ -5,8 +5,8 @@ namespace ConsoleApp1 {
     class BasicDivisionDefinitions
     {
         public static bool divides(
-          int d, // 4
-          int n // 8
+          Integer d, // 4
+          Integer n // 8
         )
         {
             try
@@ -20,14 +20,14 @@ namespace ConsoleApp1 {
             }
         }
 
-        public static bool multiple(int n, int d)
+        public static bool multiple(Integer n, Integer d)
         {
             return BasicDivisionDefinitions.divides(d, n);
         }
 
-        public static int existsDivision(
-          int d, // 4
-          int n  // 8
+        public static Integer existsDivision(
+          Integer d, // 4
+          Integer n  // 8
         )
         {
             var oneMore = Q.exist(); // 56
@@ -35,11 +35,11 @@ namespace ConsoleApp1 {
             return oneMore;
         }
 
-        public static bool isProperDivisor(int d, int n)
+        public static bool isProperDivisor(Integer d, Integer n)
         {
             return d != n && d != -n && d != 1 && d != -1 && BasicDivisionDefinitions.divides(d, n);
         }
-        public static bool isPrime(int p)
+        public static bool isPrime(Integer p)
         {
             var divisor = Q.any();
             return p > 1 && !BasicDivisionDefinitions.isProperDivisor(divisor, p);
@@ -48,9 +48,9 @@ namespace ConsoleApp1 {
 
     class Prime
     {
-        public int p;
+        public Integer p;
 
-        public Prime(int p)
+        public Prime(Integer p)
         {
             I.True(BasicDivisionDefinitions.isPrime(p));
             this.p = p;
@@ -59,8 +59,8 @@ namespace ConsoleApp1 {
 
     class PositivePrime
     {
-        public int p;
-        public PositivePrime(int p)
+        public Integer p;
+        public PositivePrime(Integer p)
         {
             I.True(BasicDivisionDefinitions.isPrime(p) && p > 0);
             this.p = p;
