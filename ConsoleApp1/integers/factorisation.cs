@@ -11,9 +11,9 @@ namespace ConsoleApp1
         class Factorization
         {
             public Integer n;
-            public Integer[] primes;
+            public Prime[] primes;
             public Integer[] exponents;
-            public Factorization(Integer n, Integer[] primes, Integer[] exponents)
+            public Factorization(Integer n, Prime[] primes, Integer[] exponents)
             {
                 for (var i = 0; i < primes.Length - 1; i++)
                 {
@@ -34,7 +34,7 @@ namespace ConsoleApp1
                 var exponents = new List<Integer>();
                 foreach (var prime in primes)
                 {
-                    var exponent = 0;
+                    var exponent = new Integer(0);
                     if (this.primes.Contains(prime))
                     {
                         exponent += this.exponents[Array.IndexOf(this.primes, prime)];
@@ -49,14 +49,14 @@ namespace ConsoleApp1
                 return new Factorization(this.n * fac.n, primes.ToArray(), exponents.ToArray());
             }
 
-            public Integer? findDividentFactor(Integer q)
+            public Integer? findDividentFactor(Prime q)
             {
                 if (this.primes.Length == 0) {
                     return null;
                 }
                 var p1 = this.primes[0];
                 var dividend = IntegerTheorems.existOneDividesOneOfTheFactorsIFFDividesProduct(
-                  new Prime(q),
+                  q,
                   p1,
                   this.n / p1
                 );
@@ -90,7 +90,7 @@ namespace ConsoleApp1
         {
             if (n == 1)
             {
-                return new Factorization(1, new Integer[] { 1 }, new Integer[] { 1 });
+                return new Factorization(1, new Prime[] { new Prime(1) }, new Integer[] { 1 });
             }
             // n > 1
             var n1 = Q.any();
@@ -105,7 +105,7 @@ namespace ConsoleApp1
             {
                 if (BasicDivisionDefinitions.isPrime(n))
                 {
-                    var primeUniqueFactorisation = new Factorization(n, new Integer[] { n }, new Integer[] { 1 });
+                    var primeUniqueFactorisation = new Factorization(n, new Prime[] { new Prime(n) }, new Integer[] { 1 });
                     return primeUniqueFactorisation;
                 }
 

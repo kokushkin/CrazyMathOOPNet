@@ -68,8 +68,8 @@
             I.True(n != 0);
         }
 
-        public static NotZeroInteger operator +(NotZeroInteger a, NotZeroInteger b)
-            => new NotZeroInteger(a.n + b.n);
+        public static Integer operator +(NotZeroInteger a, NotZeroInteger b)
+            => new Integer(a.n + b.n);
 
         public static int operator +(NotZeroInteger a, int b)
             => a.n + b;
@@ -94,8 +94,30 @@
 
         public static int operator *(int a, NotZeroInteger b)
             => a * b.n;
+    }
 
+    class PositiveInteger: NotZeroInteger
+    {
+        public PositiveInteger(int n): base(n)
+        {
+            I.True(n > 0);
+        }
 
+        public static PositiveInteger operator +(PositiveInteger a, PositiveInteger b)
+            => new PositiveInteger(a.n + b.n);
+    }
+
+    class Prime: PositiveInteger
+    {
+        public Prime(int n) : base(n)
+        {
+            I.True(BasicDivisionDefinitions.isPrime(n));
+        }
+
+        public Prime(Integer n): base((int)n)
+        {
+            I.True(BasicDivisionDefinitions.isPrime(n));
+        }
     }
 
 

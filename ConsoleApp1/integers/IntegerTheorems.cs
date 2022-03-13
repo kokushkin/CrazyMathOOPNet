@@ -162,20 +162,19 @@ namespace ConsoleApp1
         // A positive integer n is prime if and only if it is not divisible by any of the integers
         // d with 1 < d ≤ √n.
 
-        class NotDivisibleWithLessThanRoot
+        class NotDivisibleWithLessThanRoot: PositiveInteger
         {
-            public Integer p;
-            public NotDivisibleWithLessThanRoot(Integer p)
+            public NotDivisibleWithLessThanRoot(Integer n): base((int)n)
             {
                 var d = Q.any();
                 I.True(
-                  1 < d && d <= IntegerMath.Sqrt(p) && !BasicDivisionDefinitions.divides(d, p)
+                  d <= IntegerMath.Sqrt(n) && !BasicDivisionDefinitions.divides(d, n)
                 );
-                this.p = p;
+
             }
         }
 
-        PositivePrime NotDivisibleWithLessThenRootThenPositivePrime(
+        Prime NotDivisibleWithLessThenRootThenPositivePrime(
             NotDivisibleWithLessThanRoot notDivisblePositive
             )
         {
@@ -202,7 +201,7 @@ namespace ConsoleApp1
                 );
                 // positive integer:
                 //not(divistible) i.e. prime  <= has no divisor <= sqrt(n)
-                return new PositivePrime(notDivisblePositive.p);
+                return new Prime(notDivisblePositive);
             }
             else
             {
@@ -210,10 +209,10 @@ namespace ConsoleApp1
             }
         }
 
-        NotDivisibleWithLessThanRoot IfPositivePrimeThenNotDivisibleWithLessThenRoot(PositivePrime prime)
+        NotDivisibleWithLessThanRoot IfPositivePrimeThenNotDivisibleWithLessThenRoot(Prime p)
         {
             // obvious, because of prime
-            return new NotDivisibleWithLessThanRoot(prime.p);
+            return new NotDivisibleWithLessThanRoot(p);
         }
 
         // check if it's prime
@@ -322,7 +321,7 @@ namespace ConsoleApp1
             }
         }
 
-        static XYForm existsOnlyOneTheLeastPositiveXYForm(Integer n, Integer m) {
+        static XYForm existsOnlyOneTheLeastPositiveXYForm(Integer n, NotZeroInteger m) {
             var x1 = Q.any();
             var y1 = Q.any();
             var x = Q.exist();
@@ -333,7 +332,7 @@ namespace ConsoleApp1
             return new XYForm(n, m, x, y, (NotZeroInteger)d);
         }
 
-        static XYForm existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(Integer n, Integer m) 
+        static XYForm existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(Integer n, NotZeroInteger m) 
         {
  
             var leastPositiveForm = existsOnlyOneTheLeastPositiveXYForm(n, m);
@@ -383,7 +382,7 @@ namespace ConsoleApp1
             // how to tell that it's unique?
         }
 
-        Integer existOnlyOneLeastCommonMultiple(Integer n, Integer m) {
+        Integer existOnlyOneLeastCommonMultiple(Integer n, NotZeroInteger m) {
             
             var form = existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(n, m);
             var gcd = form.d;
@@ -422,11 +421,10 @@ namespace ConsoleApp1
         }
 
         public static Integer existOneDividesOneOfTheFactorsIFFDividesProduct(
-              Prime prime,
+              Prime p,
               Integer a,
               Integer b
             ) {
-            var p = prime.p;
 
             if (BasicDivisionDefinitions.divides(p, a))
             {
@@ -435,12 +433,12 @@ namespace ConsoleApp1
             else
             {
                 var form = existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(
-                  p,
-                  new NotZeroInteger(a)
+                  a,
+                  new NotZeroInteger((int)p)
                 );
                 var gcd = form.d;
-                var r = form.x;
-                var s = form.y;
+                var s = form.x;
+                var r = form.y;
 
                 I.True(gcd != p);
                 I.True(gcd == 1);

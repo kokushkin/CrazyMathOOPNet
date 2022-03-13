@@ -46,26 +46,5 @@ namespace ConsoleApp1 {
         }
     }
 
-    class Prime
-    {
-        public Integer p;
-
-        public Prime(Integer p)
-        {
-            I.True(BasicDivisionDefinitions.isPrime(p));
-            this.p = p;
-        }
-    }
-
-    class PositivePrime
-    {
-        public Integer p;
-        public PositivePrime(Integer p)
-        {
-            I.True(BasicDivisionDefinitions.isPrime(p) && p > 0);
-            this.p = p;
-        }
-    }
-
 
 }
