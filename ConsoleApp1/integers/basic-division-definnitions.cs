@@ -44,6 +44,31 @@ namespace ConsoleApp1 {
             var divisor = Q.any();
             return p > 1 && !BasicDivisionDefinitions.isProperDivisor(divisor, p);
         }
+
+        // n = 10; m=21
+        // n = 1o; m= 5;
+        public static bool relativelyPrime(Integer m, Integer n)
+        {
+            var d = Q.any(); // d =5
+            if (
+              BasicDivisionDefinitions.divides(d, m) &&
+              BasicDivisionDefinitions.divides(d, n)
+            )
+            {
+                if (d == -1 || d == 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return true;
+            }
+        }
     }
 
 

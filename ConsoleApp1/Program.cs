@@ -10,7 +10,7 @@ namespace ConsoleApp1
             // book
             // https://www-users.cse.umn.edu/~garrett/m/algebra/notes/Whole.pdf
             // typos
-            // https://drive.google.com/drive/folders/1iFXugHH4SepLItMRCUXGH7I61yifK7A
+            // https://drive.google.com/drive/folders/1iFXugHH4SepLItMRCUXGH7I61yifK7A-
             //var x = 5;
 
             //var prime1 = new Prime();

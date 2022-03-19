@@ -6,14 +6,14 @@ namespace ConsoleApp1
 {
     class IntegerMath
     {
-        public static Integer Abs(Integer n)
+        public static PositiveInteger Abs(Integer n)
         {
-            return Math.Abs((int)n);
+            return new PositiveInteger(Math.Abs((int)n));
         }
 
-        public static Integer Sqrt(Integer n)
+        public static Rational Sqrt(Rational n)
         {
-            var some = Q.exist();
+            var some = Q.rationalExist();
             I.True(n == some * some);
             return some;
         }
@@ -22,5 +22,11 @@ namespace ConsoleApp1
         {
             return (Integer)Math.Pow((int)n, (int)p);
         }
+
+        public static NotZeroInteger Pow(NotZeroInteger n, Integer p)
+        {
+            return (NotZeroInteger)Math.Pow((int)n, (int)p);
+        }
+
     }
 }

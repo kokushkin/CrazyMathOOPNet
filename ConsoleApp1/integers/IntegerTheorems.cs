@@ -230,55 +230,9 @@ namespace ConsoleApp1
             return true;
         }
 
-        // coprime
-        // mutually prime
-        bool relativelyPrime(Integer m, Integer n)
-        {
-            var d = Q.exist();
-            if (
-              BasicDivisionDefinitions.divides(d, m) &&
-              BasicDivisionDefinitions.divides(d, n)
-            )
-            {
-                if (d == -1 || d == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
 
-        // n = 10; m=21
-        // n = 1o; m= 5;
-        bool relativelyPrime1(Integer m, Integer n)
-        {
-            var d = Q.any(); // d =5
-            if (
-              BasicDivisionDefinitions.divides(d, m) &&
-              BasicDivisionDefinitions.divides(d, n)
-            )
-            {
-                if (d == -1 || d == 1)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return true;
-            }
-        }
+
+
 
         bool commonDivisor(Integer d, Integer[] n) {
             foreach (var ni in n) {
@@ -302,7 +256,7 @@ namespace ConsoleApp1
             return true;
         }
 
-        class XYForm
+        public class XYForm
         {
               Integer n;
               Integer m;
@@ -332,7 +286,7 @@ namespace ConsoleApp1
             return new XYForm(n, m, x, y, (NotZeroInteger)d);
         }
 
-        static XYForm existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(Integer n, NotZeroInteger m) 
+        public static XYForm existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(Integer n, NotZeroInteger m) 
         {
  
             var leastPositiveForm = existsOnlyOneTheLeastPositiveXYForm(n, m);
