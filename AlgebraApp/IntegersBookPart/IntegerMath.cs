@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AlgebraApp.Numbers;
 
-namespace ConsoleApp1
+namespace AlgebraApp
 {
     class IntegerMath
     {
@@ -13,19 +14,9 @@ namespace ConsoleApp1
 
         public static Rational Sqrt(Rational n)
         {
-            var some = Q.rationalExist();
+            var some = Q.exist<Rational>();
             I.True(n == some * some);
             return some;
-        }
-
-        public static Integer Pow(Integer n, Integer p)
-        {
-            return (Integer)Math.Pow((int)n, (int)p);
-        }
-
-        public static NotZeroInteger Pow(NotZeroInteger n, Integer p)
-        {
-            return (NotZeroInteger)Math.Pow((int)n, (int)p);
         }
 
     }

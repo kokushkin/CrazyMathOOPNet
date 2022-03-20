@@ -1,6 +1,7 @@
 ﻿using System;
+using AlgebraApp.Numbers;
 
-namespace ConsoleApp1 {
+namespace AlgebraApp {
 
     class BasicDivisionDefinitions
     {
@@ -30,7 +31,7 @@ namespace ConsoleApp1 {
           Integer n  // 8
         )
         {
-            var oneMore = Q.exist(); // 56
+            var oneMore = Q.exist<Integer>(); // 56
             I.True(n == d * oneMore);
             return oneMore;
         }
@@ -41,7 +42,7 @@ namespace ConsoleApp1 {
         }
         public static bool isPrime(Integer p)
         {
-            var divisor = Q.any();
+            var divisor = Q.any<Integer>();
             return p > 1 && !BasicDivisionDefinitions.isProperDivisor(divisor, p);
         }
 
@@ -49,7 +50,7 @@ namespace ConsoleApp1 {
         // n = 1o; m= 5;
         public static bool relativelyPrime(Integer m, Integer n)
         {
-            var d = Q.any(); // d =5
+            var d = Q.any<Integer>(); // d =5
             if (
               BasicDivisionDefinitions.divides(d, m) &&
               BasicDivisionDefinitions.divides(d, n)

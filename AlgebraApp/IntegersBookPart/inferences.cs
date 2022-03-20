@@ -1,6 +1,7 @@
 ﻿using System;
+using AlgebraApp.Numbers;
 
-namespace ConsoleApp1
+namespace AlgebraApp
 {
     class I
     {

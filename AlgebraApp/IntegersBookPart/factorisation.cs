@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AlgebraApp.Numbers;
 
-namespace ConsoleApp1
+namespace AlgebraApp
 {
     class FactorizationTheorem
     {
@@ -58,7 +59,7 @@ namespace ConsoleApp1
                 var dividend = IntegerTheorems.existOneDividesOneOfTheFactorsIFFDividesProduct(
                   q,
                   p1,
-                  this.n / p1
+                  (this.n / p1).a
                 );
 
                 if (dividend == p1) {
@@ -82,7 +83,7 @@ namespace ConsoleApp1
                     this.exponents = this.exponents.Skip(1).ToArray();
 
                 }
-                this.n = this.n / this.primes[0];
+                this.n = (this.n / this.primes[0]).a;
             }
         }
 
@@ -93,7 +94,7 @@ namespace ConsoleApp1
                 return new Factorization(1, new Prime[] { new Prime(1) }, new Integer[] { 1 });
             }
             // n > 1
-            var n1 = Q.any();
+            var n1 = Q.any<Integer>();
             Q.assume(I.True(n1 < n));
             Q.assume(existsFactorisation(n1) != null);
 
@@ -109,8 +110,8 @@ namespace ConsoleApp1
                     return primeUniqueFactorisation;
                 }
 
-                var x = Q.exist();
-                var y = Q.exist();
+                var x = Q.exist<Integer>();
+                var y = Q.exist<Integer>();
                 I.True(
                   BasicDivisionDefinitions.isProperDivisor(x, n) &&
                     BasicDivisionDefinitions.isProperDivisor(y, n)

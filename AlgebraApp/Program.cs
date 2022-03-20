@@ -16,6 +16,9 @@ namespace ConsoleApp1
             //var prime1 = new Prime();
             //var prime2 = new Prime();
             //var res = prime1 + prime2;
+
+
+
         }
     }
 }

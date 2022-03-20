@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using AlgebraApp.Numbers;
 
-namespace ConsoleApp1
+namespace AlgebraApp
 {
     class IntegerTheorems
     {
@@ -57,7 +58,7 @@ namespace ConsoleApp1
 
         static ReductionModulo existsOnlyOneReductionModulo(
             Integer n,
-            Integer m
+            NotZeroInteger m
         ) {
             /// proof
             // Proof: Let S be the set of all non-negative integers
@@ -124,8 +125,8 @@ namespace ConsoleApp1
             // r − r′ = m · (q′ − q)
             // Thus, r − r′is a multiple of m. But since −|m| < r − r′ < |m| we have r = r′. And then q = q′.
 
-            var _r = Q.assume(Q.exist());
-            var _q = Q.assume(Q.exist());
+            var _r = Q.assume(Q.exist<Integer>());
+            var _q = Q.assume(Q.exist<Integer>());
             var anotherExistingReductionModule = new ReductionModulo(n, m, _r, _q);
 
             I.functionsChain(new object[] { leatsForm.dif - _r, m * (_q - q) });
@@ -166,7 +167,7 @@ namespace ConsoleApp1
         {
             public NotDivisibleWithLessThanRoot(Integer n): base((int)n)
             {
-                var d = Q.any();
+                var d = Q.any<Integer>();
                 I.True(
                   d <= IntegerMath.Sqrt(n) && !BasicDivisionDefinitions.divides(d, n)
                 );
@@ -180,9 +181,9 @@ namespace ConsoleApp1
         {
             // positive integer:
             // divistible  => has  a divisor <= sqrt(n)
-            var n = Q.any();
-            var d = Q.exist();
-            var e = Q.exist();
+            var n = Q.any<NotZeroInteger>();
+            var d = Q.exist<NotZeroInteger>();
+            var e = Q.exist<NotZeroInteger>();
 
             if (
               n > 0 &&
@@ -194,9 +195,9 @@ namespace ConsoleApp1
             {
                 I.functionsChain(
                   d == n / e,
-                  n / e <= n / d,
+                  (n / e) <= (n / d),
                   d <= n / d,
-                  IntegerMath.Pow(d, 2) <= n,
+                  (d^2) <= n,
                   d <= IntegerMath.Sqrt(n)
                 );
                 // positive integer:
@@ -229,9 +230,6 @@ namespace ConsoleApp1
             }
             return true;
         }
-
-
-
 
 
         bool commonDivisor(Integer d, Integer[] n) {
@@ -276,10 +274,10 @@ namespace ConsoleApp1
         }
 
         static XYForm existsOnlyOneTheLeastPositiveXYForm(Integer n, NotZeroInteger m) {
-            var x1 = Q.any();
-            var y1 = Q.any();
-            var x = Q.exist();
-            var y = Q.exist();
+            var x1 = Q.any<Integer>();
+            var y1 = Q.any<Integer>();
+            var x = Q.exist<Integer>();
+            var y = Q.exist<Integer>();
             var d = x * m + y * n;
             I.True(d > 0 && d <= x1 * m + y1 * n);
 
@@ -294,7 +292,7 @@ namespace ConsoleApp1
             var y = leastPositiveForm.y;
             var D = leastPositiveForm.d;
 
-            var d = Q.any();
+            var d = Q.any<Integer>();
             var m_ = Q.assume(BasicDivisionDefinitions.existsDivision(d, n));
             var n_ = Q.assume(BasicDivisionDefinitions.existsDivision(d, m));
 
@@ -348,12 +346,13 @@ namespace ConsoleApp1
 
             I.True(n == n_ * gcd);
             I.True(m == m_ * gcd);
-            var L = (n * m) / gcd;
+            // todo: How to make it better then .a ?
+            var L = ((n * m) / gcd).a;
             I.functionsChain(L, (n * m) / gcd, (n_ * gcd * m) / gcd, n_ * m);
             I.functionsChain(L, (n * m) / gcd, (n * m_ * gcd) / gcd, n * m_);
             I.True(L == n_ * m && L == n * m_);
 
-            var M = Q.assume(Q.exist());
+            var M = Q.assume(Q.exist<Integer>());
             var s = Q.assume(BasicDivisionDefinitions.existsDivision(n, M));
             var r = Q.assume(BasicDivisionDefinitions.existsDivision(m, M));
 
