@@ -56,7 +56,7 @@ namespace AlgebraApp
                     return null;
                 }
                 var p1 = this.primes[0];
-                var dividend = IntegerTheorems.existOneDividesOneOfTheFactorsIFFDividesProduct(
+                var dividend = IntegerTheorems.existOne_DividesOneOfTheFactors_IFF_DividesProduct(
                   q,
                   p1,
                   (this.n / p1).a

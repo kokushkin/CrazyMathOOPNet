@@ -62,32 +62,35 @@ namespace AlgebraApp.Numbers
 
         }
 
+
+
         void primeRootIsNotRational(Prime p)
-        {
-            try
-            {
+        {    
                 // to the contrary
                 var c = Q.assume(Q.exist<Rational>());
                 I.True(c == IntegerMath.Sqrt(p));
-                c = c.getInLowestTerms();
+                // c = c.getInLowestTerms();
                 var a = c.a;
                 var b = c.b;
                 I.True(a / b == IntegerMath.Sqrt(p));
                 I.True((a ^ 2) == p * (b ^ 2));
                 I.True(BasicDivisionDefinitions.divides(p, a^2));
+                a = IntegerTheorems.existOne_DividesOneOfTheFactors_IFF_DividesProduct(p, a, a);
                 I.True(BasicDivisionDefinitions.divides(p, a));
                 var a_ = a / p;
                 I.True(a == p * a_);
-                I.True((a ^ 2) == ((p * a_) ^ 2));
                 I.True(((p * a_) ^ 2) == p * (b ^ 2));
                 I.True(p * (a_ ^ 2) == (b ^ 2));
+                I.True(BasicDivisionDefinitions.divides(p, b ^ 2));
+                b = IntegerTheorems.existOne_DividesOneOfTheFactors_IFF_DividesProduct(p, b, b);
+                I.True(BasicDivisionDefinitions.divides(p, b));
+
+                ar xyForm = IntegerTheorems.existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(a, b);
+                var gcd = xyForm.d;
+                I.True(gcd == 1);
+                I.True(BasicDivisionDefinitions.divides(p, a));
                 I.True(BasicDivisionDefinitions.divides(p, b));
                 // contradiction
-            }
-            catch (Exception ex)
-            {
-
-            }
         }
 
 

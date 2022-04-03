@@ -39,6 +39,11 @@ namespace AlgebraApp.Numbers
         public static Integer operator ^(Integer n, Integer x)
             => (Integer) Math.Pow((int) n, (int) x);
 
+        //public static Integer sqrt()
+        //{
+
+        //}
+
 
         public static bool operator >(Integer a, Integer b)
             => a.n > b.n;

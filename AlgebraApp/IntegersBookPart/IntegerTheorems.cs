@@ -373,7 +373,7 @@ namespace AlgebraApp
             return L;
         }
 
-        public static Integer existOneDividesOneOfTheFactorsIFFDividesProduct(
+        public static Integer existOne_DividesOneOfTheFactors_IFF_DividesProduct(
               Prime p,
               Integer a,
               Integer b
