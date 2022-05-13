@@ -375,11 +375,13 @@ namespace AlgebraApp
         // p 
         // 0 = 4x0
         // p = 7
-        public static Integer getDividentFactor(
+        public static FactorType getDividentFactor<FactorType>(
               Prime dvsr, // divisor of the product  2
-              Integer fctr1, // first factor of the product  4
-              Integer fctr2 // second factor of the product  2
-            ) {
+              FactorType fctr1, // first factor of the product  4
+              FactorType fctr2 // second factor of the product  2
+            ) 
+            where FactorType: Integer 
+            {
 
             if (BasicDivisionDefinitions.divides(dvsr, fctr1))
             {

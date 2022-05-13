@@ -62,8 +62,6 @@ namespace AlgebraApp.Numbers
 
         }
 
-
-
         void primeRootIsNotRational(Prime p)
         {
                 // to the contrary
@@ -85,19 +83,12 @@ namespace AlgebraApp.Numbers
                 b = IntegerTheorems.getDividentFactor(p, b, b);
                 I.True(BasicDivisionDefinitions.divides(p, b));
 
-                ar xyForm = IntegerTheorems.existsOnlyOneGCD(a, b);
-                var gcd = xyForm.d;
+                var gcd = IntegerTheorems.existsOnlyOneGCD(a, b);
                 I.True(gcd == 1);
                 I.True(BasicDivisionDefinitions.divides(p, a));
                 I.True(BasicDivisionDefinitions.divides(p, b));
                 // contradiction
         }
-
-        void func1()
-        {
-            primeRootIsNotRational(new Prime(4));
-        }
-
 
     }
 
