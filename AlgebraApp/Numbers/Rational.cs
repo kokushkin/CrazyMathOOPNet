@@ -55,8 +55,8 @@ namespace AlgebraApp.Numbers
 
         public Rational getInLowestTerms()
         {
-            var a_ = (Integer)(this.a / (IntegerTheorems.existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(this.a, this.b)).d);
-            var b_ = (NotZeroInteger)(this.b / (IntegerTheorems.existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(this.a, this.b)).d);
+            var a_ = (Integer)(this.a / (IntegerTheorems.existsOnlyOneGCD(this.a, this.b)));
+            var b_ = (NotZeroInteger)(this.b / (IntegerTheorems.existsOnlyOneGCD(this.a, this.b)));
             // b_ must be NotZeroInteger actually. existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm must return NotZeroInteger, right?
             return new Rational(a_, b_);
 
@@ -65,32 +65,37 @@ namespace AlgebraApp.Numbers
 
 
         void primeRootIsNotRational(Prime p)
-        {    
+        {
                 // to the contrary
-                var c = Q.assume(Q.exist<Rational>());
-                I.True(c == IntegerMath.Sqrt(p));
+                var c = Q.assume(Q.exists<Rational>());
+                Q.assume(I.True(c == IntegerMath.Sqrt(p)));
                 // c = c.getInLowestTerms();
                 var a = c.a;
                 var b = c.b;
                 I.True(a / b == IntegerMath.Sqrt(p));
                 I.True((a ^ 2) == p * (b ^ 2));
                 I.True(BasicDivisionDefinitions.divides(p, a^2));
-                a = IntegerTheorems.existOne_DividesOneOfTheFactors_IFF_DividesProduct(p, a, a);
+                a = IntegerTheorems.getDividentFactor(p, a, a);
                 I.True(BasicDivisionDefinitions.divides(p, a));
                 var a_ = a / p;
                 I.True(a == p * a_);
                 I.True(((p * a_) ^ 2) == p * (b ^ 2));
                 I.True(p * (a_ ^ 2) == (b ^ 2));
                 I.True(BasicDivisionDefinitions.divides(p, b ^ 2));
-                b = IntegerTheorems.existOne_DividesOneOfTheFactors_IFF_DividesProduct(p, b, b);
+                b = IntegerTheorems.getDividentFactor(p, b, b);
                 I.True(BasicDivisionDefinitions.divides(p, b));
 
-                ar xyForm = IntegerTheorems.existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(a, b);
+                ar xyForm = IntegerTheorems.existsOnlyOneGCD(a, b);
                 var gcd = xyForm.d;
                 I.True(gcd == 1);
                 I.True(BasicDivisionDefinitions.divides(p, a));
                 I.True(BasicDivisionDefinitions.divides(p, b));
                 // contradiction
+        }
+
+        void func1()
+        {
+            primeRootIsNotRational(new Prime(4));
         }
 
 

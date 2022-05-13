@@ -12,6 +12,11 @@ namespace AlgebraApp.Numbers
         {
             this.n = n;
         }
+
+        public Integer(Integer n): base(n, new NotZeroInteger(1))
+        {
+
+        }
         public static Integer operator +(Integer a)
             => a;
 

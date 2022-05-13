@@ -56,7 +56,7 @@ namespace AlgebraApp
                     return null;
                 }
                 var p1 = this.primes[0];
-                var dividend = IntegerTheorems.existOne_DividesOneOfTheFactors_IFF_DividesProduct(
+                var dividend = IntegerTheorems.getDividentFactor(
                   q,
                   p1,
                   (this.n / p1).a
@@ -110,8 +110,8 @@ namespace AlgebraApp
                     return primeUniqueFactorisation;
                 }
 
-                var x = Q.exist<Integer>();
-                var y = Q.exist<Integer>();
+                var x = Q.exists<Integer>();
+                var y = Q.exists<Integer>();
                 I.True(
                   BasicDivisionDefinitions.isProperDivisor(x, n) &&
                     BasicDivisionDefinitions.isProperDivisor(y, n)

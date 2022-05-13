@@ -11,6 +11,11 @@ namespace AlgebraApp.Numbers
             I.True(n != 0);
         }
 
+        public NotZeroInteger(NotZeroInteger n): base(n)
+        {
+
+        }
+
         public static Integer operator +(NotZeroInteger a, NotZeroInteger b)
             => new Integer(a.n + b.n);
 

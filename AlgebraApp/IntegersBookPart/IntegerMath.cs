@@ -14,7 +14,7 @@ namespace AlgebraApp
 
         public static Rational Sqrt(Rational n)
         {
-            var some = Q.exist<Rational>();
+            var some = Q.exists<Rational>();
             I.True(n == some * some);
             return some;
         }

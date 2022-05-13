@@ -125,8 +125,8 @@ namespace AlgebraApp
             // r − r′ = m · (q′ − q)
             // Thus, r − r′is a multiple of m. But since −|m| < r − r′ < |m| we have r = r′. And then q = q′.
 
-            var _r = Q.assume(Q.exist<Integer>());
-            var _q = Q.assume(Q.exist<Integer>());
+            var _r = Q.assume(Q.exists<Integer>());
+            var _q = Q.assume(Q.exists<Integer>());
             var anotherExistingReductionModule = new ReductionModulo(n, m, _r, _q);
 
             I.functionsChain(new object[] { leatsForm.dif - _r, m * (_q - q) });
@@ -182,8 +182,8 @@ namespace AlgebraApp
             // positive integer:
             // divistible  => has  a divisor <= sqrt(n)
             var n = Q.any<NotZeroInteger>();
-            var d = Q.exist<NotZeroInteger>();
-            var e = Q.exist<NotZeroInteger>();
+            var d = Q.exists<NotZeroInteger>();
+            var e = Q.exists<NotZeroInteger>();
 
             if (
               n > 0 &&
@@ -254,43 +254,41 @@ namespace AlgebraApp
             return true;
         }
 
-        public class XYForm
+        public class XYForm: NotZeroInteger
         {
-              Integer n;
+              new Integer n;
               Integer m;
               public Integer x;
               public Integer y;
-              public NotZeroInteger d;
-            public XYForm(Integer n, Integer m, Integer x, Integer y, NotZeroInteger d)
+            public XYForm(Integer n, Integer m, Integer x, Integer y, NotZeroInteger d): base(d)
             {
-                I.True(d == x * m + y * n);
+     
+                I.True(this == x * m + y * n);
 
                 this.n = n;
                 this.m = m;
                 this.x = x;
                 this.y = y;
-                this.d = d;
             }
         }
 
-        static XYForm existsOnlyOneTheLeastPositiveXYForm(Integer n, NotZeroInteger m) {
+        static XYForm existsOnlyOneLeastPositiveXYForm(Integer n, NotZeroInteger m) {
             var x1 = Q.any<Integer>();
             var y1 = Q.any<Integer>();
-            var x = Q.exist<Integer>();
-            var y = Q.exist<Integer>();
+            var x = Q.exists<Integer>();
+            var y = Q.exists<Integer>();
             var d = x * m + y * n;
             I.True(d > 0 && d <= x1 * m + y1 * n);
 
             return new XYForm(n, m, x, y, (NotZeroInteger)d);
         }
 
-        public static XYForm existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(Integer n, NotZeroInteger m) 
+        public static XYForm existsOnlyOneGCD(Integer n, NotZeroInteger m) 
         {
  
-            var leastPositiveForm = existsOnlyOneTheLeastPositiveXYForm(n, m);
-            var x = leastPositiveForm.x;
-            var y = leastPositiveForm.y;
-            var D = leastPositiveForm.d;
+            var D = existsOnlyOneLeastPositiveXYForm(n, m);
+            var x = D.x;
+            var y = D.y;
 
             var d = Q.any<Integer>();
             var m_ = Q.assume(BasicDivisionDefinitions.existsDivision(d, n));
@@ -330,16 +328,15 @@ namespace AlgebraApp
             // similarly
             I.True(BasicDivisionDefinitions.divides(D, n));
 
-            return leastPositiveForm;
+            return D;
             // how to tell that it's unique?
         }
 
         Integer existOnlyOneLeastCommonMultiple(Integer n, NotZeroInteger m) {
             
-            var form = existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(n, m);
-            var gcd = form.d;
-            var a = form.x;
-            var b = form.y;
+            var gcd = existsOnlyOneGCD(n, m);
+            var a = gcd.x;
+            var b = gcd.y;
 
             var n_ = BasicDivisionDefinitions.existsDivision(gcd, n);
             var m_ = BasicDivisionDefinitions.existsDivision(gcd, m);
@@ -352,7 +349,7 @@ namespace AlgebraApp
             I.functionsChain(L, (n * m) / gcd, (n * m_ * gcd) / gcd, n * m_);
             I.True(L == n_ * m && L == n * m_);
 
-            var M = Q.assume(Q.exist<Integer>());
+            var M = Q.assume(Q.exists<Integer>());
             var s = Q.assume(BasicDivisionDefinitions.existsDivision(n, M));
             var r = Q.assume(BasicDivisionDefinitions.existsDivision(m, M));
 
@@ -373,42 +370,48 @@ namespace AlgebraApp
             return L;
         }
 
-        public static Integer existOne_DividesOneOfTheFactors_IFF_DividesProduct(
-              Prime p,
-              Integer a,
-              Integer b
+        // finds which factor of a product divided by a divisor
+        // 8 = 4x2
+        // p 
+        // 0 = 4x0
+        // p = 7
+        public static Integer getDividentFactor(
+              Prime dvsr, // divisor of the product  2
+              Integer fctr1, // first factor of the product  4
+              Integer fctr2 // second factor of the product  2
             ) {
 
-            if (BasicDivisionDefinitions.divides(p, a))
+            if (BasicDivisionDefinitions.divides(dvsr, fctr1))
             {
-                return a;
+                return fctr1;
             }
             else
             {
-                var form = existsOnlyOneGreatestCommonDivisorInTheLeastPositiveXYForm(
-                  a,
-                  new NotZeroInteger((int)p)
+                var gcd = existsOnlyOneGCD(
+                  fctr1,
+                  new NotZeroInteger((int)dvsr)
                 );
-                var gcd = form.d;
-                var s = form.x;
-                var r = form.y;
+                var s = gcd.x;
+                var r = gcd.y;
 
-                I.True(gcd != p);
+                I.True(gcd != dvsr);
                 I.True(gcd == 1);
-                var k = BasicDivisionDefinitions.existsDivision(p, a * b);
-                I.True(k * p == a * b);
+                var k = BasicDivisionDefinitions.existsDivision(dvsr, fctr1 * fctr2);
+                I.True(k * dvsr == fctr1 * fctr2);
                 I.functionsChain(
-                  b,
-                  b * 1,
-                  b * (r * p + s * a),
-                  b * r * p + s * a * b,
-                  b * r * p + s * k * p,
-                  p * (r * b + s * k)
+                  fctr2,
+                  fctr2 * 1,
+                  fctr2 * (r * dvsr + s * fctr1),
+                  fctr2 * r * dvsr + s * fctr1 * fctr2,
+                  fctr2 * r * dvsr + s * k * dvsr,
+                  dvsr * (r * fctr2 + s * k)
                 );
-                I.True(BasicDivisionDefinitions.divides(p, b));
-                return b;
+                I.True(BasicDivisionDefinitions.divides(dvsr, fctr2));
+                return fctr2;
             }
         }
+
+        
 
     }
 

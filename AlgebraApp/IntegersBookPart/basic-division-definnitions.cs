@@ -31,7 +31,7 @@ namespace AlgebraApp {
           Integer n  // 8
         )
         {
-            var oneMore = Q.exist<Integer>(); // 56
+            var oneMore = Q.exists<Integer>(); // 56
             I.True(n == d * oneMore);
             return oneMore;
         }

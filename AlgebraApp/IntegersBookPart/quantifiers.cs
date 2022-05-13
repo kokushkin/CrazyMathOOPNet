@@ -10,7 +10,7 @@ namespace AlgebraApp
             throw new NotImplementedException();
         }
 
-        public static T exist <T>()
+        public static T exists <T>()
         {
             throw new NotImplementedException();
 
